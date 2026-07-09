@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CinePass | Premium Movie Ticket Booking{% endblock %}</title>
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'images/label.png' %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/style.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Or we can just use the standard bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Theme Stylesheet -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Glassmorphic Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-cinema sticky-top">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-cinema" href="{% url 'home' %}">
+                <i class="fa-solid fa-film text-warning"></i> CINEPASS
+            </a>
+            <button class="navbar-dark navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-cinema px-3" href="{% url 'home' %}">Home</a>
+                    </li>
+                </ul>
+
+                <!-- Instant Movie Search Form -->
+                <form class="d-flex me-lg-3 my-2 my-lg-0" method="get" action="{% url 'home' %}">
+                    <div class="input-group">
+                        <input class="form-control form-control-cinema border-end-0" type="search"
+                            placeholder="Search movies, genre..." name="q" value="{{ query|default:'' }}"
+                            aria-label="Search">
+                        <button class="btn btn-outline-warning border-start-0" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="d-flex align-items-center gap-2">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'user_bookings' %}" class="btn btn-outline-warning btn-sm px-3">
+                        <i class="fa-solid fa-ticket me-1"></i> My Tickets
+                    </a>
+                    <span class="text-white-50 ms-2 me-1 small">Hi, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger px-3">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm px-3">Log In</a>
+                    <a href="{% url 'signup' %}" class="btn btn-gold btn-sm px-3">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}info{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show bg-dark text-white border-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}warning{% else %}secondary{% endif %}"
+            role="alert">
+            <div class="d-flex align-items-center gap-2">
+                {% if message.tags == 'success' %}
+                <i class="fa-solid fa-circle-check text-warning"></i>
+                {% elif message.tags == 'error' %}
+                <i class="fa-solid fa-circle-exclamation text-danger"></i>
+                {% else %}
+                <i class="fa-solid fa-circle-info text-info"></i>
+                {% endif %}
+                <span>{{ message }}</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Dynamic Content -->
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Responsive Dark Footer -->
+    <footer>
+        <div class="container text-center">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start mb-2 mb-md-0">
+                    <span class="fw-bold text-warning"><i class="fa-solid fa-film"></i> CinePass Portal</span>
+                    <p class="mb-0 text-white-50 small">Developed by Neha Dharavathu.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-white-50 small">&copy; {% now "Y" %} CinePass Booking Portal.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

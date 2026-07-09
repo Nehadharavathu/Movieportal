@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}CinePass | Book Movie Tickets Online{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+
+    {% if not query %}
+    <div id="heroCarousel"
+        class="carousel slide carousel-fade mb-5 rounded-4 overflow-hidden border border-secondary border-opacity-25"
+        data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active"
+                style="height: 380px; background: linear-gradient(rgba(0,0,0,0.1), rgba(10,10,12,0.95)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop') center/cover;">
+                <div class="carousel-caption text-start pb-5 px-4">
+                    <span class="badge bg-warning text-dark mb-2 fw-bold px-3 py-2 text-uppercase">Now Showing</span>
+                    <h1 class="display-4 fw-extrabold text-white">Experience Cinema Like Never Before</h1>
+                    <p class="lead text-white-50">Browse the latest blockbusters, check showtimes, and book your
+                        favorite seats interactively.</p>
+                </div>
+            </div>
+            <div class="carousel-item"
+                style="height: 380px; background: linear-gradient(rgba(0,0,0,0.1), rgba(10,10,12,0.95)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop') center/cover;">
+                <div class="carousel-caption text-start pb-5 px-4">
+                    <span class="badge bg-warning text-dark mb-2 fw-bold px-3 py-2 text-uppercase">Community
+                        Reviews</span>
+                    <h1 class="display-4 fw-extrabold text-white">Share Your Cinema Story</h1>
+                    <p class="lead text-white-50">Read authentic community reviews and voice your own ratings for each
+                        movie.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% endif %}
+
+
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="fw-bold mb-0">
+                {% if query %}
+                <i class="fa-solid fa-square-poll-vertical text-warning me-2"></i> Search Results for "{{ query }}"
+                {% else %}
+                <i class="fa-solid fa-ticket text-warning me-2"></i> Currently Running Movies
+                {% endif %}
+            </h2>
+            <p class="text-white-50 small mb-0">Showing {{ movies|length }} movie{{ movies|pluralize }} available in
+                theatres</p>
+        </div>
+        {% if query %}
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-rotate-left"></i> Clear Search
+        </a>
+        {% endif %}
+    </div>
+
+
+    {% if movies %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for movie in movies %}
+        <div class="col">
+            <div class="movie-card">
+                <div class="movie-poster-wrapper">
+
+                    <div class="movie-rating-badge">
+                        <i class="fa-solid fa-star"></i> {{ movie.average_rating|default:"0.0" }}
+                    </div>
+
+                    {% if movie.poster_url %}
+                    <img src="{{ movie.poster_url }}" alt="{{ movie.title }} Poster" class="movie-poster"
+                        loading="lazy">
+                    {% else %}
+                    <div
+                        class="w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark text-white-50 p-4">
+                        <i class="fa-regular fa-image fa-3x mb-2 text-secondary"></i>
+                        <span class="small text-center">{{ movie.title }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title" title="{{ movie.title }}">{{ movie.title }}</h3>
+                    <div class="movie-meta-tags">
+                        <span class="meta-tag">{{ movie.genre }}</span>
+                        <span class="meta-tag text-warning fw-bold">{{ movie.certificate }}</span>
+                        <span class="meta-tag">{{ movie.language }}</span>
+                    </div>
+                    <div
+                        class="mt-auto pt-3 d-flex justify-content-between align-items-center border-top border-secondary border-opacity-25">
+                        <span class="text-white-50 small"><i class="fa-regular fa-clock me-1"></i> {{ movie.duration
+                            }}m</span>
+                        <a href="{% url 'movie_detail' movie.id %}" class="btn btn-gold btn-sm py-1 px-3">
+                            Book Now <i class="fa-solid fa-chevron-right ms-1 small"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+
+    <div class="text-center py-5 bg-card rounded-4 border border-secondary border-opacity-10 my-4">
+        <i class="fa-solid fa-video-slash fa-4x text-secondary mb-3"></i>
+        <h4 class="fw-bold">No Movies Found</h4>
+        <p class="text-white-50">We couldn't find any movies matching "{{ query }}". Try searching for other terms.</p>
+        <a href="{% url 'home' %}" class="btn btn-gold mt-2">Explore All Movies</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

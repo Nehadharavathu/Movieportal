@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: movieportal
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn movie_booking.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: nehadharavathu@gmail.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: Cinepass@2026
