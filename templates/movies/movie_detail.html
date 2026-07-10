@@ -6,188 +6,304 @@
 {% block extra_css %}
 <style>
     :root {
-        --backdrop-img: url('{% if movie.poster_url %}{{ movie.poster_url }}{% else %}https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop{% endif %}');
+        --backdrop-img:url('{% if movie.poster_url %}{{ movie.poster_url }}{% else %}https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop{% endif %}');
     }
 </style>
 {% endblock %}
 
 {% block content %}
->
+
 <div class="movie-detail-header">
     <div class="container">
         <div class="row align-items-center">
+
             <div class="col-md-4 col-lg-3 mb-4 mb-md-0 text-center">
                 {% if movie.poster_url %}
-                <img src="{{ movie.poster_url }}" alt="{{ movie.title }} Poster" class="img-fluid detail-poster"
-                    loading="lazy">
+                <img src="{{ movie.poster_url }}" class="img-fluid detail-poster" alt="{{ movie.title }}">
                 {% else %}
-                <div class="detail-poster d-flex flex-column justify-content-center align-items-center bg-dark text-white-50 p-5"
-                    style="aspect-ratio: 2/3;">
-                    <i class="fa-regular fa-image fa-4x mb-3 text-secondary"></i>
-                    <span>No Poster Available</span>
+                <div class="detail-poster d-flex justify-content-center align-items-center bg-dark text-white-50 p-5"
+                    style="aspect-ratio:2/3;">
+                    <i class="fa-regular fa-image fa-4x mb-3"></i>
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-8 col-lg-9">
-                <span class="badge bg-warning text-dark mb-2 px-3 py-2 fw-bold">{{ movie.certificate }}</span>
-                <h1 class="detail-title text-white mb-2">{{ movie.title }}</h1>
 
-                <div class="d-flex align-items-center flex-wrap gap-3 mb-4 text-white-50 small">
+            <div class="col-md-8 col-lg-9">
+                <span class="badge bg-warning text-dark mb-2 px-3 py-2">
+                    {{ movie.certificate }}
+                </span>
+
+                <h1 class="detail-title text-white mb-2">
+                    {{ movie.title }}
+                </h1>
+
+                <div class="d-flex flex-wrap gap-3 text-white-50 small mb-4">
+
                     <div>
-                        <i class="fa-solid fa-star text-warning me-1"></i>
-                        <span class="text-white fw-bold">{{ movie.average_rating }}</span>/5.0 ({{ movie.vote_count }}
-                        vote{{ movie.vote_count|pluralize }})
+                        <i class="fa-solid fa-star text-warning"></i>
+                        <span class="text-white fw-bold">{{ movie.average_rating }}</span>/5
+                        ({{ movie.vote_count }} vote{{ movie.vote_count|pluralize }})
                     </div>
-                    <div><i class="fa-regular fa-clock me-1"></i> {{ movie.duration }} Minutes</div>
-                    <div><i class="fa-regular fa-calendar-alt me-1"></i> Released: {{ movie.release_date|date:"F d, Y"
-                        }}</div>
-                    <div><i class="fa-solid fa-language me-1"></i> {{ movie.language }}</div>
+
+                    <div>
+                        <i class="fa-regular fa-clock"></i>
+                        {{ movie.duration }} Minutes
+                    </div>
+
+                    <div>
+                        <i class="fa-regular fa-calendar"></i>
+                        {{ movie.release_date|date:"F d, Y" }}
+                    </div>
+
+                    <div>
+                        <i class="fa-solid fa-language"></i>
+                        {{ movie.language }}
+                    </div>
+
                 </div>
 
-                <h5 class="text-warning fw-bold mb-2">Synopsis</h5>
-                <p class="lead text-light mb-4" style="max-width: 800px; font-size: 1.05rem; line-height: 1.6;">
+                <h5 class="text-warning">Synopsis</h5>
+
+                <p class="lead text-light">
                     {{ movie.synopsis }}
                 </p>
 
                 <div class="d-flex gap-2">
-                    <span class="badge bg-secondary px-3 py-2">{{ movie.genre }}</span>
-                    <span class="badge bg-secondary px-3 py-2">{{ movie.language }}</span>
+                    <span class="badge bg-secondary">{{ movie.genre }}</span>
+                    <span class="badge bg-secondary">{{ movie.language }}</span>
                 </div>
+
             </div>
+
         </div>
     </div>
 </div>
 
 <div class="container py-5">
-    <div class="row g-5">
-        >
-        <div class="col-lg-7">
-            <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4 mb-4">
-                <h3 class="fw-bold mb-4 text-warning">
-                    <i class="fa-solid fa-ticket-simple me-2"></i> Select Showtime
+
+    <div class="row align-items-start">
+
+        <!-- SHOWTIMES -->
+
+        <div class="col-lg-7 mb-4">
+
+            <div class="card bg-dark border-secondary rounded-4 p-4">
+
+                <h3 class="text-warning fw-bold mb-4">
+                    <i class="fa-solid fa-ticket-simple"></i>
+                    Select Showtime
                 </h3>
 
                 {% if showtimes %}
-                <div class="list-group list-group-flush bg-transparent">
+
+                <div class="list-group list-group-flush">
+
                     {% for showtime in showtimes %}
+
                     <div
-                        class="list-group-item bg-transparent border-secondary border-opacity-25 py-3 px-0 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        class="list-group-item bg-transparent border-secondary d-flex justify-content-between align-items-center flex-wrap py-3">
+
                         <div>
-                            <h5 class="mb-1 text-white fw-bold">
-                                <i class="fa-regular fa-clock text-warning me-2"></i>
+
+                            <h5 class="text-white mb-1">
                                 {{ showtime.start_time|date:"h:i A" }}
                             </h5>
-                            <p class="mb-0 text-white-50 small">
+
+                            <p class="text-white-50 mb-0">
                                 {{ showtime.start_time|date:"l, F d, Y" }}
                             </p>
+
                         </div>
+
                         <div class="d-flex align-items-center gap-3">
-                            <span class="fs-5 fw-bold text-white">${{ showtime.ticket_price }}</span>
-                            <a href="{% url 'booking_view' showtime.id %}" class="btn btn-gold btn-sm px-4">
+
+                            <span class="text-white fw-bold">
+                                ${{ showtime.ticket_price }}
+                            </span>
+
+                            <a href="{% url 'booking_view' showtime.id %}" class="btn btn-gold">
                                 Select Seats
                             </a>
+
                         </div>
+
                     </div>
+
                     {% endfor %}
+
                 </div>
+
                 {% else %}
-                <div class="text-center py-4 text-white-50">
-                    <i class="fa-solid fa-calendar-xmark fa-2x mb-2 text-secondary"></i>
-                    <p class="mb-0">No showtimes are currently scheduled for this movie.</p>
+
+                <div class="text-center text-white-50 py-4">
+                    No showtimes available.
                 </div>
+
                 {% endif %}
+
             </div>
+
         </div>
+        <!-- COMMUNITY REVIEWS -->
 
+        <div class="col-lg-5 mb-4">
 
-        <div class="col-lg-5">
-            <div class="card bg-dark border-secondary border-opacity-25 rounded-4 p-4">
-                <h3 class="fw-bold mb-4 text-warning">
-                    <i class="fa-solid fa-star-half-stroke me-2"></i> Community Reviews
+            <div class="card bg-dark border-secondary rounded-4 p-4">
+
+                <h3 class="text-warning fw-bold mb-4">
+                    <i class="fa-solid fa-star-half-stroke me-2"></i>
+                    Community Reviews
                 </h3>
 
-
                 {% if user.is_authenticated %}
+
                 {% if user_has_reviewed %}
-                <div class="alert alert-secondary bg-dark border-secondary text-white-50 small mb-4">
-                    <i class="fa-solid fa-info-circle text-warning me-2"></i> You have already submitted a review for
-                    this movie.
+
+                <div class="alert alert-secondary bg-dark border-secondary text-white-50">
+                    <i class="fa-solid fa-circle-info text-warning me-2"></i>
+                    You have already submitted a review.
                 </div>
+
                 {% else %}
-                <div class="mb-4 pb-4 border-bottom border-secondary border-opacity-25">
-                    <h5 class="fw-bold text-white mb-3">Add Your Review</h5>
-                    <form method="post" action="{% url 'movie_detail' movie.id %}">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label text-white-50 small">Your Rating</label>
-                            <div class="rating-input-wrapper">
-                                <input type="radio" id="star5" name="rating" value="5" required />
-                                <label for="star5" title="5 stars"><i class="fa-solid fa-star"></i></label>
-                                <input type="radio" id="star4" name="rating" value="4" />
-                                <label for="star4" title="4 stars"><i class="fa-solid fa-star"></i></label>
-                                <input type="radio" id="star3" name="rating" value="3" />
-                                <label for="star3" title="3 stars"><i class="fa-solid fa-star"></i></label>
-                                <input type="radio" id="star2" name="rating" value="2" />
-                                <label for="star2" title="2 stars"><i class="fa-solid fa-star"></i></label>
-                                <input type="radio" id="star1" name="rating" value="1" />
-                                <label for="star1" title="1 star"><i class="fa-solid fa-star"></i></label>
-                            </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label text-white">
+                            Rating
+                        </label>
+
+                        <div class="rating-input-wrapper">
+
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5"><i class="fa-solid fa-star"></i></label>
+
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4"><i class="fa-solid fa-star"></i></label>
+
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3"><i class="fa-solid fa-star"></i></label>
+
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2"><i class="fa-solid fa-star"></i></label>
+
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1"><i class="fa-solid fa-star"></i></label>
+
                         </div>
-                        <div class="mb-3">
-                            <label for="reviewComment" class="form-label text-white-50 small">Comment</label>
-                            <textarea class="form-control form-control-cinema" id="reviewComment" name="comment"
-                                rows="3" required placeholder="What did you think of the movie?"></textarea>
-                        </div>
-                        <button type="submit" name="submit_review" class="btn btn-gold btn-sm w-100">
-                            Submit Review
-                        </button>
-                    </form>
-                </div>
-                {% endif %}
-                {% else %}
-                <div class="alert alert-secondary bg-dark border-secondary text-white-50 text-center small mb-4 py-3">
-                    <p class="mb-2">Must be logged in to submit a review.</p>
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-sm btn-outline-warning">
-                        Log In Here
-                    </a>
-                </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <textarea class="form-control form-control-cinema" name="comment" rows="3"
+                            placeholder="Write your review..." required></textarea>
+
+                    </div>
+
+                    <button class="btn btn-gold w-100" type="submit" name="submit_review">
+
+                        Submit Review
+
+                    </button>
+
+                </form>
+
                 {% endif %}
 
+                {% else %}
+
+                <div class="alert alert-secondary bg-dark border-secondary text-center">
+
+                    Login to submit a review.
+
+                    <div class="mt-3">
+
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-warning btn-sm">
+
+                            Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                <hr class="border-secondary">
 
                 <div class="reviews-list">
+
                     {% if reviews %}
+
                     {% for review in reviews %}
+
                     <div class="review-item">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-white">
-                                <i class="fa-regular fa-user text-warning me-1"></i> {{ review.user.username }}
-                            </span>
-                            <span class="text-white-50 small">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong class="text-white">
+                                {{ review.user.username }}
+                            </strong>
+
+                            <small class="text-white-50">
                                 {{ review.created_at|date:"M d, Y" }}
-                            </span>
+                            </small>
+
                         </div>
-                        <div class="stars-container mb-2">
+
+                        <div class="stars-container my-2">
+
                             {% for i in "12345" %}
+
                             {% if forloop.counter <= review.rating %} <i class="fa-solid fa-star"></i>
+
                                 {% else %}
+
                                 <i class="fa-regular fa-star text-secondary"></i>
+
                                 {% endif %}
+
                                 {% endfor %}
+
                         </div>
-                        <p class="mb-0 text-light small" style="line-height: 1.5;">
+
+                        <p class="text-light mb-0">
                             {{ review.comment }}
                         </p>
+
                     </div>
+
                     {% endfor %}
+
                     {% else %}
-                    <div class="text-center py-4 text-white-50">
-                        <i class="fa-regular fa-comments fa-2x mb-2 text-secondary"></i>
-                        <p class="mb-0">No reviews yet. Be the first to share your thoughts!</p>
+
+                    <div class="text-center text-white-50 py-3">
+
+                        No reviews yet.
+
                     </div>
+
                     {% endif %}
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 </div>
+</div>
+<!-- End Reviews Column -->
+
+</div>
+<!-- End Row -->
+
+</div>
+<!-- End Container -->
+
 {% endblock %}
