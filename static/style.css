@@ -145,6 +145,7 @@ body {
 .movie-detail-header {
     background: linear-gradient(180deg, rgba(10, 10, 12, 0.4) 0%, rgba(10, 10, 12, 0.95) 80%, rgba(10, 10, 12, 1) 100%), var(--backdrop-img);
     background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
     padding-top: 120px;
     padding-bottom: 50px;
@@ -156,6 +157,91 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     max-width: 100%;
+}
+/* Movie Detail Hero */
+
+
+.movie-detail-hero {
+    position: relative;
+    min-height: 600px;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+
+/* Dark cinematic overlay */
+
+.movie-detail-overlay {
+    min-height: 600px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 5, 8, 0.92) 0%,
+            rgba(5, 5, 8, 0.78) 45%,
+            rgba(5, 5, 8, 0.65) 70%,
+            rgba(5, 5, 8, 0.88) 100%
+        );
+
+    display: flex;
+    align-items: center;
+}
+
+
+/* Movie poster */
+
+.movie-detail-hero .detail-poster {
+    width: 100%;
+    max-width: 300px;
+
+    aspect-ratio: 2 / 3;
+
+    object-fit: cover;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.7);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* Movie title */
+
+.movie-detail-hero .detail-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .movie-detail-hero {
+        min-height: auto;
+    }
+
+    .movie-detail-overlay {
+        min-height: auto;
+        padding: 40px 0;
+    }
+
+    .movie-detail-hero .detail-poster {
+        max-width: 240px;
+    }
+
+    .movie-detail-hero .detail-title {
+        font-size: 2.3rem;
+        margin-top: 20px;
+    }
+
 }
 
 

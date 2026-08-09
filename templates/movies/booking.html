@@ -67,8 +67,7 @@
                 <div class="mb-4">
                     <h4 class="fw-bold text-white mb-1">{{ showtime.movie.title }}</h4>
                     <p class="text-white-50 small mb-0">
-                        <i class="fa-regular fa-calendar-alt text-warning me-1"></i> {{ showtime.start_time|date:"l, F
-                        d, Y" }}
+                        <i class="fa-regular fa-calendar-alt text-warning me-1"></i> {{ showtime.start_time|date:"l, F d, Y" }}
                     </p>
                     <p class="text-white-50 small">
                         <i class="fa-regular fa-clock text-warning me-1"></i> {{ showtime.start_time|date:"h:i A" }}
@@ -96,37 +95,36 @@
                 </div>
 
 
-                <form method="post" action="{% url 'booking_view' showtime.id %}" class="mt-auto">
+                <form method="POST" action="{% url 'booking_view' showtime.id %}" class="mt-auto">
                     {% csrf_token %}
+                    {{ form.seats }}
 
-                    {% if form.non_field_errors %}
-                    <div class="alert alert-danger bg-dark border-danger text-white small mb-3">
-                        {% for error in form.non_field_errors %}
-                        <p class="mb-0"><i class="fa-solid fa-circle-exclamation text-danger me-2"></i> {{ error }}</p>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% for field in form %}
-                    {% if field.is_hidden %}
-                    {{ field }}
-                    {% else %}
                     <div class="mb-3">
-                        <label for="{{ field.id_for_label }}" class="form-label text-white-50 small">{{ field.label
-                            }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                        <div class="text-danger small mt-1">
-                            {% for error in field.errors %}
-                            <p class="mb-0"><i class="fa-solid fa-exclamation-triangle me-1"></i> {{ error }}</p>
-                            {% endfor %}
-                        </div>
+                        <label class="form-label text-white">Full Name</label>
+                        {{ form.customer_name }}
+                        {% if form.customer_name.errors %}
+                            <div class="text-danger small mt-1">{{ form.customer_name.errors.0 }}</div>
                         {% endif %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
 
-                    <button type="submit" id="book-button" class="btn btn-gold btn-lg w-100 py-3 mt-4" disabled>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Email Address</label>
+                        {{ form.customer_email }}
+                        {% if form.customer_email.errors %}
+                            <div class="text-danger small mt-1">{{ form.customer_email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger bg-dark border-danger text-danger py-2 small mb-3">
+                            {{ form.non_field_errors.0 }}
+                        </div>
+                    {% endif %}
+
+                    <button
+                        id="book-button"
+                        class="btn btn-warning w-100 mt-4"
+                        disabled>
                         Confirm Booking
                     </button>
                 </form>

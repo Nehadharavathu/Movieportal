@@ -35,9 +35,10 @@
                             <div class="row mb-3">
                                 <div class="col-6">
                                     <span class="text-white-50 small d-block">Showtime</span>
-                                    <span class="fw-semibold text-white">
-                                        {{ booking.showtime.start_time|date:"D, M d, h:i A" }}
-                                    </span>
+                                     <span class="fw-semibold text-white">
+                                     {{ booking.showtime.start_time|date:"D, M d, Y" }} |
+                                     {{ booking.showtime.start_time|date:"h:i A" }}
+                                     </span>
                                 </div>
                                 <div class="col-6">
                                     <span class="text-white-50 small d-block">Seats Reserved</span>

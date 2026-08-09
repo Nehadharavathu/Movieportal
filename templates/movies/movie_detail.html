@@ -13,72 +13,133 @@
 
 {% block content %}
 
-<div class="movie-detail-header">
-    <div class="container">
-        <div class="row align-items-center">
+{% if movie.poster_url %}
 
-            <div class="col-md-4 col-lg-3 mb-4 mb-md-0 text-center">
-                {% if movie.poster_url %}
-                <img src="{{ movie.poster_url }}" class="img-fluid detail-poster" alt="{{ movie.title }}">
-                {% else %}
-                <div class="detail-poster d-flex justify-content-center align-items-center bg-dark text-white-50 p-5"
-                    style="aspect-ratio:2/3;">
-                    <i class="fa-regular fa-image fa-4x mb-3"></i>
-                </div>
-                {% endif %}
-            </div>
+<div class="movie-detail-hero"
+     style="background-image: url('{{ movie.poster_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
-            <div class="col-md-8 col-lg-9">
-                <span class="badge bg-warning text-dark mb-2 px-3 py-2">
-                    {{ movie.certificate }}
-                </span>
+    <div class="movie-detail-overlay">
 
-                <h1 class="detail-title text-white mb-2">
-                    {{ movie.title }}
-                </h1>
+        <div class="container py-5">
 
-                <div class="d-flex flex-wrap gap-3 text-white-50 small mb-4">
+            <div class="row align-items-center">
 
-                    <div>
-                        <i class="fa-solid fa-star text-warning"></i>
-                        <span class="text-white fw-bold">{{ movie.average_rating }}</span>/5
-                        ({{ movie.vote_count }} vote{{ movie.vote_count|pluralize }})
-                    </div>
+                <!-- MOVIE POSTER -->
 
-                    <div>
-                        <i class="fa-regular fa-clock"></i>
-                        {{ movie.duration }} Minutes
-                    </div>
+                <div class="col-md-4 col-lg-3 mb-4 mb-md-0 text-center">
 
-                    <div>
-                        <i class="fa-regular fa-calendar"></i>
-                        {{ movie.release_date|date:"F d, Y" }}
-                    </div>
-
-                    <div>
-                        <i class="fa-solid fa-language"></i>
-                        {{ movie.language }}
-                    </div>
+                    <img src="{{ movie.poster_url }}"
+                         class="img-fluid detail-poster"
+                         alt="{{ movie.title }}">
 
                 </div>
 
-                <h5 class="text-warning">Synopsis</h5>
 
-                <p class="lead text-light">
-                    {{ movie.synopsis }}
-                </p>
+                <!-- MOVIE INFORMATION -->
 
-                <div class="d-flex gap-2">
-                    <span class="badge bg-secondary">{{ movie.genre }}</span>
-                    <span class="badge bg-secondary">{{ movie.language }}</span>
+                <div class="col-md-8 col-lg-9">
+
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2">
+                        {{ movie.certificate }}
+                    </span>
+
+                    <h1 class="detail-title text-white mb-3">
+                        {{ movie.title }}
+                    </h1>
+
+                    <div class="d-flex flex-wrap gap-3 text-white-50 small mb-4">
+
+                        <div>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <span class="text-white fw-bold">
+                                {{ movie.average_rating }}
+                            </span>/5
+                            ({{ movie.vote_count }} vote{{ movie.vote_count|pluralize }})
+                        </div>
+
+                        <div>
+                            <i class="fa-regular fa-clock"></i>
+                            {{ movie.duration }} Minutes
+                        </div>
+
+                        <div>
+                            <i class="fa-regular fa-calendar"></i>
+                            {{ movie.release_date|date:"F d, Y" }}
+                        </div>
+
+                        <div>
+                            <i class="fa-solid fa-language"></i>
+                            {{ movie.language }}
+                        </div>
+
+                    </div>
+
+                    <h5 class="text-warning fw-bold mb-3">
+                        Synopsis
+                    </h5>
+
+                    <p class="lead text-light">
+                        {{ movie.synopsis }}
+                    </p>
+
+                    <div class="d-flex gap-2">
+
+                        <span class="badge bg-secondary px-3 py-2">
+                            {{ movie.genre }}
+                        </span>
+
+                        <span class="badge bg-secondary px-3 py-2">
+                            {{ movie.language }}
+                        </span>
+
+                    </div>
+
                 </div>
 
             </div>
 
         </div>
+
     </div>
+
 </div>
 
+{% else %}
+
+<!-- No poster available -->
+
+<div class="movie-detail-header">
+
+    <div class="container py-5">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-4 col-lg-3 text-center">
+
+                <div class="detail-poster d-flex justify-content-center align-items-center bg-dark text-white-50 p-5"
+                     style="aspect-ratio:2/3;">
+
+                    <i class="fa-regular fa-image fa-4x"></i>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-8 col-lg-9">
+
+                <h1 class="detail-title text-white">
+                    {{ movie.title }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
 <div class="container py-5">
 
     <div class="row align-items-start">
@@ -106,11 +167,11 @@
                         <div>
 
                             <h5 class="text-white mb-1">
-                                {{ showtime.start_time|date:"h:i A" }}
+                                {{ showtime.start_time|date:"l, F d, Y" }}
                             </h5>
 
                             <p class="text-white-50 mb-0">
-                                {{ showtime.start_time|date:"l, F d, Y" }}
+                                {{ showtime.start_time|date:"h:i A" }}
                             </p>
 
                         </div>
@@ -296,12 +357,7 @@
         </div>
 
     </div>
-</div>
-</div>
-<!-- End Reviews Column -->
-
-</div>
-<!-- End Row -->
+    <!-- End Row -->
 
 </div>
 <!-- End Container -->
