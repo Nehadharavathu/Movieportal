@@ -212,5 +212,3 @@ Velagapudi Ramakrishna Siddhartha Engineering College
 ## 📜 License
 
 This project is developed for educational purposes as a B.Tech Capstone Project.
-username:Nehaa
-password:Arjunkittu
